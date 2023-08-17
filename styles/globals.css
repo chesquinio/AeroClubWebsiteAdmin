@@ -2,3 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.customWidth {
+    min-width: 500px;;
+}
+
+.listWidth {
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+.listWidthDefault {
+    max-width: 500px;
+    margin: 20px auto 0;
+}
+
+.responsiveNav {
+    display: block;
+}
+
+@media (max-width: 768px) {
+    .responsiveNav {
+        display: none;
+    }
+}
