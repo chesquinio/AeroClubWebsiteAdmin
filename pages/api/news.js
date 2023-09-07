@@ -1,11 +1,9 @@
 import { mongooseConnect } from "@/lib/mongoose";
 import { News } from "@/model/News";
-import { isAdminRequest } from "./auth/[...nextauth]";
 
 export default async function handle(req, res) {
     const {method} = req;
     await mongooseConnect()
-    await isAdminRequest(req, res)
 
     if ( method === 'GET') {
         if(req.query?.id) {
@@ -16,14 +14,14 @@ export default async function handle(req, res) {
     }
 
     if ( method === 'POST') {
-        const {newTitle, newDescription, newImage} = req.body;
-        const newsDoc = await News.create({title: newTitle, description: newDescription, images: newImage})
+        const {newTitle, newDescription, newImages} = req.body;
+        const newsDoc = await News.create({title: newTitle, description: newDescription, images: newImages})
         res.json(newsDoc);
     }
 
     if (method === 'PUT') {
-        const {_id, newTitle, newDescription, newImage} = req.body;
-        const newsDoc = await News.updateOne({_id}, {title: newTitle, description: newDescription, images: newImage})
+        const {_id, newTitle, newDescription, newImages} = req.body;
+        const newsDoc = await News.updateOne({_id}, {title: newTitle, description: newDescription, images: newImages})
         res.json(newsDoc)
     }
 

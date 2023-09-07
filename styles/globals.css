@@ -12,12 +12,10 @@ body {
 
 .listWidth {
     max-width: 800px;
-    margin: 20px auto;
 }
 
 .listWidthDefault {
     max-width: 500px;
-    margin: 20px auto 0;
 }
 
 .responsiveNav {

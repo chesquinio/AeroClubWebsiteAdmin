@@ -1,33 +1,42 @@
-import { useSession, signIn } from "next-auth/react";
 import Nav from "./Nav";
 import ResponsiveNav from "./ResponsiveNav";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from 'next/router';
+import jwtDecode from "jwt-decode";
 
 function Layout({ children }) {
-  const { data: session } = useSession();
   const [showResponsiveNav, setShowResponsiveNav] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      router.push("/iniciar");
+    } else {
+      try {
+        const decodedToken = jwtDecode(token);
+        const currentTime = Date.now() / 1000;
+
+        if (decodedToken.exp < currentTime) {
+          localStorage.removeItem("token"); 
+          router.push("/iniciar"); 
+        }
+      } catch (error) {
+        console.error("Error al decodificar el token:", error);
+        localStorage.removeItem("token");
+        router.push("/iniciar");
+      }
+    }
+  }, []);
 
   const toggleResponsiveNav = () => {
     setShowResponsiveNav(!showResponsiveNav);
   };
 
-  if (!session) {
-    return (
-      <div className="bg-blue-300 w-screen h-screen flex items-center">
-        <div className="text-center w-full">
-          <button
-            onClick={() => signIn("google")}
-            className="bg-white p-2 px-4 rounded-md"
-          >
-            Logeate con Google
-          </button>
-        </div>
-      </div>
-    );
-  }
   return (
-    <div className="bg-blue-300 min-h-screen">
+    <div className="bg-primary min-h-screen">
       <div className="flex">
         {showResponsiveNav ? (
           <div className="flex flex-col">
@@ -38,7 +47,7 @@ function Layout({ children }) {
                 fill="none"
                 viewBox="0 0 24 24"
                 strokeWidth={1.5}
-                stroke="currentColor"
+                stroke="white"
                 className="w-8 h-8"
               >
                 <path
@@ -56,13 +65,15 @@ function Layout({ children }) {
               <div className="flex justify-between items-center">
                 <Link href={"/"} className="flex items-center ml-1">
                   <img
-                    src="https://aeroclub-website.s3.amazonaws.com/1691463050161.jpg"
+                    src="https://aeroclub-website.s3.amazonaws.com/1693577423224.png"
                     alt="Logo"
                     className="rounded-md w-10"
                   />
                 </Link>
                 <div>
-                  <h1 className="text-2xl font-light">Administrador</h1>
+                  <h1 className="text-2xl font-light text-white">
+                    Administrador
+                  </h1>
                 </div>
                 <div onClick={toggleResponsiveNav}>
                   <svg
@@ -70,7 +81,7 @@ function Layout({ children }) {
                     fill="none"
                     viewBox="0 0 24 24"
                     strokeWidth={1.5}
-                    stroke="currentColor"
+                    stroke="white"
                     className="w-8 h-8"
                   >
                     <path

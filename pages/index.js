@@ -1,17 +1,13 @@
-import Layout from '@/components/Layout'
-import { useSession } from "next-auth/react";
+import Layout from "@/components/Layout";
 
 function HomePage() {
-  const {data: session} = useSession()
-
-  if (!session) return;
-
   return (
-      <Layout>
-        <div className='bg-blue-300'>Home</div>
-      </Layout>
-  )
+    <Layout>
+      <div className="">
+        
+      </div>
+    </Layout>
+  );
 }
 
-
-export default HomePage
+export default HomePage;

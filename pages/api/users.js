@@ -3,8 +3,19 @@ import { ClubUsers } from "@/model/ClubUsers";
 import { mongooseConnect } from "@/lib/mongoose";
 
 export default async function handler(req, res) {
-  if (req.method === "POST") {
-    const { userName, documentNumber, password, userRole } = req.body;
+  if (req.method === "GET") {
+    try {
+      await mongooseConnect();
+
+      const users = await ClubUsers.find();
+
+      return res.status(200).json(users);
+    } catch (error) {
+      return res.status(500).json({ message: "Error al obtener los usuarios." });
+    }
+  } else if (req.method === "POST") {
+    const { name, age, documentNumber, email, password, role, validated } =
+      req.body;
 
     try {
       await mongooseConnect();
@@ -19,10 +30,13 @@ export default async function handler(req, res) {
       const hashedPassword = await bcrypt.hash(password, 10);
 
       const newUser = new ClubUsers({
-        name: userName,
-        nameId: documentNumber,
+        name,
+        age,
+        document: documentNumber,
+        email,
         password: hashedPassword,
-        role: userRole,
+        role,
+        validated,
       });
       await newUser.save();
 
@@ -34,13 +48,34 @@ export default async function handler(req, res) {
         .status(500)
         .json({ message: "Error al registrar el usuario." });
     }
-  } else if (req.method === "DELETE") {
-    const nameId = req.query.userId;
+  } else if (req.method === "PUT") {
+    const { id } = req.query;
+    const { validated } = req.body;
 
     try {
       await mongooseConnect();
 
-      await ClubUsers.deleteOne({nameId})
+      const updatedUser = await ClubUsers.findByIdAndUpdate(
+        id,
+        { validated },
+        { new: true }
+      );
+
+      if (!updatedUser) {
+        return res.status(404).json({ message: "Usuario no encontrado." });
+      }
+
+      return res.status(200).json(updatedUser);
+    } catch (error) {
+      return res.status(500).json({ message: "Error al actualizar el usuario." });
+    }
+  } else if (req.method === "DELETE") {
+    const documentNumber = req.query.userId;
+
+    try {
+      await mongooseConnect();
+
+      await ClubUsers.deleteOne({ documentNumber });
 
       return res
         .status(200)

@@ -1,57 +1,113 @@
-"use client"
+"use client";
 import Layout from "@/components/Layout";
 import axios from "axios";
 import Router from "next/router";
+import Modal from "react-modal";
 import { useEffect, useState } from "react";
 
-
 function News() {
-  const [news, setNews] = useState([])
+  const [news, setNews] = useState([]);
+  const [deleteModalIsOpen, setDeleteModalIsOpen] = useState(false);
+  const [newsToDelete, setNewsToDelete] = useState(null);
 
   useEffect(() => {
-    fetchNews()
-  }, [])
+    fetchNews();
+  }, []);
 
   async function fetchNews() {
-    axios.get('/api/news').then((response) => {
-      setNews(response.data)
-    })
+    axios.get("/api/news").then((response) => {
+      setNews(response.data.reverse());
+    });
   }
 
   function newNew() {
-    Router.push("noticias/nueva")
+    Router.push("noticias/nueva");
   }
 
   function editNew(n) {
-    Router.push("noticias/editar/" + n._id)
+    Router.push("noticias/editar/" + n._id);
   }
 
-  async function deleteNew(n) {
-    const { _id } = n;
-    await axios.delete("/api/news?_id=" + _id);
-    fetchNews()
+  function openDeleteModal(n) {
+    setNewsToDelete(n);
+    setDeleteModalIsOpen(true);
   }
 
+  async function confirmDelete() {
+    if (newsToDelete) {
+      const { _id } = newsToDelete;
+      await axios.delete("/api/news?_id=" + _id);
+      setNewsToDelete(null);
+      setDeleteModalIsOpen(false);
+      fetchNews();
+    }
+  }
+
+  function closeDeleteModal() {
+    setNewsToDelete(null);
+    setDeleteModalIsOpen(false);
+  }
   return (
     <Layout>
-      <div className="bg-white listWidth text-center py-2 rounded text-xl">
-        <h1 className="font-medium">Noticias</h1>
+      <div className="bg-white listWidth mx-auto mt-5 text-center py-2 rounded text-xl">
+        <h1 className="font-light text-2xl">Noticias</h1>
       </div>
-        <div>
-          {news && news.map( n => (
-              <div key={n._id} className="listWidth grid grid-flow-col bg-white rounded-lg px-3 py-5">
-                <h4>{n.title}</h4>
-                <div className='text-right'>
-                  <button onClick={() => editNew(n)} className="mx-3 px-4 py-1 bg-blue-300 rounded-lg">Editar</button>
-                  <button onClick={() => deleteNew(n)} className="mx-3 px-4 py-1 bg-red-500 text-white rounded-lg">Eliminar</button>
-                </div>
+      <div>
+        {news &&
+          news.map((n) => (
+            <div
+              key={n._id}
+              className="listWidth mx-auto my-5 grid grid-flow-col bg-white rounded-lg px-3 py-5"
+            >
+              <h4 className="text-xl font-normal">{n.title}</h4>
+              <div className="text-right">
+                <button
+                  onClick={() => editNew(n)}
+                  className="mx-4 text-xl rounded-lg hover:text-cyan-600 transition-all"
+                >
+                  <i className="bx bx-edit"></i>
+                </button>
+                <button
+                  onClick={() => openDeleteModal(n)}
+                  className="mx-4 text-xl text-black rounded-lg hover:text-red-400 transition-all duration-500"
+                >
+                  <i className="bx bxs-trash"></i>
+                </button>
               </div>
-          ))} 
-          <div className="listWidth flex justify-end mt-7">
-            <button className="bg-white px-6 py-2 rounded-lg" onClick={newNew}>Nueva Noticia</button>
-          </div>
+            </div>
+          ))}
+        <div className="listWidth flex justify-end mx-auto my-5">
+          <button className="bg-white text-lg  font-normal hover:bg-gray-200 transition-all px-6 py-2 rounded" onClick={newNew}>
+            Nueva Noticia
+          </button>
         </div>
-        
+      </div>
+
+      <Modal
+        isOpen={deleteModalIsOpen}
+        onRequestClose={closeDeleteModal}
+        contentLabel="Confirm Delete Modal"
+        className="Modal rounded-lg p-6 bg-white w-96 mx-auto"
+        overlayClassName="Overlay fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-75"
+      >
+        <h2 className="text-xl font-semibold text-center mb-4">
+          ¿Estás seguro de que deseas eliminar esta noticia?
+        </h2>
+        <div className="flex justify-center">
+          <button
+            onClick={closeDeleteModal}
+            className="bg-gray-300 text-gray-800 px-3 py-2 rounded mx-2"
+          >
+            Cancelar
+          </button>
+          <button
+            onClick={confirmDelete}
+            className="bg-red-500 text-white px-3 py-2 rounded mx-2"
+          >
+            Eliminar
+          </button>
+        </div>
+      </Modal>
     </Layout>
   );
 }

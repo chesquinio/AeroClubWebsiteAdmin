@@ -4,12 +4,12 @@ import React from 'react'
 function ResponsiveNav() {
   return (
     <div>
-        <nav className='flex flex-col items-center bg-blue-300 h-screen w-screen'>
-            <Link className='text-xl font-medium py-5 text-gray-600 hover:text-gray-800' href={'/noticias'}>Noticias</Link>
-            <Link className='text-xl font-medium py-5 text-gray-600 hover:text-gray-800' href={'/usuarios'}>Usuarios</Link>
-            <Link className='text-xl font-medium py-5 text-gray-600 hover:text-gray-800' href={'/tenis'}>Tenis</Link>
-            <Link className='text-xl font-medium py-5 text-gray-600 hover:text-gray-800' href={'/aeroclub'}>AeroClub</Link>
-            <Link className='text-xl font-medium py-5 text-gray-600 hover:text-gray-800' href={'/camping'}>Camping</Link>
+        <nav className='flex flex-col items-center bg-peimary w-screen'>
+            <Link className='text-xl font-medium py-5 text-white hover:text-gray-200 transition' href={'/'}>Inicio</Link>
+            <Link className='text-xl font-medium py-5 text-white hover:text-gray-200 transition' href={'/noticias'}>Noticias</Link>
+            <Link className='text-xl font-medium py-5 text-white hover:text-gray-200 transition' href={'/tenis'}>Tenis</Link>
+            <Link className='text-xl font-medium py-5 text-white hover:text-gray-200 transition' href={'/aeroclub'}>AeroClub</Link>
+            <Link className='text-xl font-medium py-5 text-white hover:text-gray-200 transition' href={'/colonia'}>Colonia</Link>
         </nav>
     </div>
   )
