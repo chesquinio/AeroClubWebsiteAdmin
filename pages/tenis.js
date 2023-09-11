@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import EditSections from "@/components/EditSections";
+import Head from "next/head";
 
 function TennisPage() {
   const [id, setId] = useState("");
@@ -64,26 +65,31 @@ function TennisPage() {
   };
 
   return (
-    <Layout>
-      <div className="bg-white listWidth my-5 mx-auto text-center py-2 rounded text-xl">
-        <h1 className="font-light text-2xl">Apartado Tenis</h1>
-      </div>
-      <EditSections
-        primaryTitle={primaryTitle}
-        setPrimaryTitle={setPrimaryTitle}
-        primaryInfo={primaryInfo}
-        setPrimaryInfo={setPrimaryInfo}
-        primaryImage={primaryImage}
-        setPrimaryImage={setPrimaryImage}
-        isUploading={isUploading}
-        uploadImage={uploadImage}
-        isToggleBotton={isToggleBotton}
-        handleToggle={handleToggle}
-        textBotton={textBotton}
-        setTextBotton={setTextBotton}
-        saveData={saveTennisData}
-      />
-    </Layout>
+    <>
+      <Head>
+        <title>Tenis | Aero Club Admin</title>
+      </Head>
+      <Layout>
+        <div className="bg-transparent text-white listWidth my-5 mx-auto text-center py-2 rounded text-xl">
+          <h1 className="font-normal text-4xl">Apartado Tenis</h1>
+        </div>
+        <EditSections
+          primaryTitle={primaryTitle}
+          setPrimaryTitle={setPrimaryTitle}
+          primaryInfo={primaryInfo}
+          setPrimaryInfo={setPrimaryInfo}
+          primaryImage={primaryImage}
+          setPrimaryImage={setPrimaryImage}
+          isUploading={isUploading}
+          uploadImage={uploadImage}
+          isToggleBotton={isToggleBotton}
+          handleToggle={handleToggle}
+          textBotton={textBotton}
+          setTextBotton={setTextBotton}
+          saveData={saveTennisData}
+        />
+      </Layout>
+    </>
   );
 }
 

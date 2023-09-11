@@ -132,24 +132,26 @@ function FormNew({
           <label className="text-xl font-normal">
             {editMode ? "Selecciona una imagen a editar" : "Imagenes"}
           </label>
-          <div
-            onClick={changeEditMode}
-            className="inline text-center text-md text-black cursor-pointer"
-          >
-            {editMode ? (
-              <div className="flex justify-center items-center hover:text-red-400 transition-all">
-                <p className="text-2xl mx-2 pt-1">
-                  <i className="bx bx-x"></i>
-                </p>
-              </div>
-            ) : (
-              <div className="flex justify-center items-center hover:text-primary transition-all">
-                <p className="text-2xl mx-2 pt-1">
-                  <i className="bx bx-edit"></i>
-                </p>
-              </div>
-            )}
-          </div>
+          {newImages?.length > 0 && (
+            <div
+              onClick={changeEditMode}
+              className="inline text-center text-md text-black cursor-pointer"
+            >
+              {editMode ? (
+                <div className="flex justify-center items-center hover:text-red-400 transition-all">
+                  <p className="text-2xl mx-2 pt-1">
+                    <i className="bx bx-x"></i>
+                  </p>
+                </div>
+              ) : (
+                <div className="flex justify-center items-center hover:text-primary transition-all">
+                  <p className="text-2xl mx-2 pt-1">
+                    <i className="bx bx-edit"></i>
+                  </p>
+                </div>
+              )}
+            </div>
+          )}
         </div>
         <div className="mb-2 flex flex-wrap gap-2">
           <ReactSortable
@@ -161,7 +163,7 @@ function FormNew({
               newImages.map((link) => (
                 <div key={link}>
                   {isUploading && selectedEditImage === link ? (
-                    <div className="h-24 w-36 p-1 flex items-center justify-center">
+                    <div className="h-24 w-36 p-1 flex items-center text-center justify-center">
                       <Spinner />
                     </div>
                   ) : (
@@ -175,7 +177,7 @@ function FormNew({
                       <img
                         src={link}
                         alt="Noticia"
-                        className="object-contain h-full w-full rounded-md"
+                        className="object-cover h-full w-full rounded-md"
                         onClick={() => {
                           if (editMode) {
                             setSelectedEditImage(link);
@@ -206,7 +208,7 @@ function FormNew({
             onRequestClose={closeImageModal}
             contentLabel="Imagen"
             className="fixed inset-0 flex items-center justify-center z-50 transition-opacity duration-500"
-            overlayClassName="fixed inset-0 bg-black bg-opacity-40 transition-opacity duration-500"
+            overlayClassName="fixed inset-0 bg-black bg-opacity-70 transition-opacity duration-500"
           >
             <div className="max-w-3xl mx-auto p-4 rounded-lg">
               <img

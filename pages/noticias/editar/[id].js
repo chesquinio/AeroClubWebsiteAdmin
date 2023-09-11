@@ -19,8 +19,8 @@ function EditNew() {
 
   return (
     <Layout>  
-        <div className="bg-white listWidthDefault mx-auto mt-5 text-center py-2 rounded-lg">
-          <h1 className="font-light text-2xl">Editar Noticia</h1>
+        <div className="bg-transparent text-white listWidthDefault mx-auto mt-5 text-center py-2 rounded-lg">
+          <h1 className="font-normal text-4xl">Editar Noticia</h1>
         </div>
         <div className="listWidthDefault mx-auto my-5">
             {newInfo && <FormNew {...newInfo} />}

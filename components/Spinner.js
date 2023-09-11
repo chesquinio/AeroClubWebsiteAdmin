@@ -1,8 +1,8 @@
-import { PuffLoader } from "react-spinners"
+import { ClipLoader } from "react-spinners"
 
 function Spinner() {
   return (
-    <PuffLoader color={'#2563eb'} speedMultiplier={2}/>
+    <ClipLoader color={'#2563eb'} speedMultiplier={1}/>
   )
 }
 

@@ -4,6 +4,7 @@ import axios from "axios";
 import Router from "next/router";
 import Modal from "react-modal";
 import { useEffect, useState } from "react";
+import Head from "next/head";
 
 function News() {
   const [news, setNews] = useState([]);
@@ -48,16 +49,20 @@ function News() {
     setDeleteModalIsOpen(false);
   }
   return (
+    <>
+    <Head>
+      <title>Noticias | Aero Club Admin</title>
+    </Head>
     <Layout>
-      <div className="bg-white listWidth mx-auto mt-5 text-center py-2 rounded text-xl">
-        <h1 className="font-light text-2xl">Noticias</h1>
+      <div className="bg-transparent text-white listWidth mx-auto mt-5 text-center py-2 rounded text-xl">
+        <h1 className="font-normal text-4xl" >Noticias</h1>
       </div>
       <div>
         {news &&
           news.map((n) => (
             <div
               key={n._id}
-              className="listWidth mx-auto my-5 grid grid-flow-col bg-white rounded-lg px-3 py-5"
+              className="listWidth mx-auto my-5 grid grid-flow-col bg-white rounded px-3 py-5"
             >
               <h4 className="text-xl font-normal">{n.title}</h4>
               <div className="text-right">
@@ -76,8 +81,8 @@ function News() {
               </div>
             </div>
           ))}
-        <div className="listWidth flex justify-end mx-auto my-5">
-          <button className="bg-white text-lg  font-normal hover:bg-gray-200 transition-all px-6 py-2 rounded" onClick={newNew}>
+        <div className="w-full listWidth flex justify-center md:justify-end mx-auto my-5">
+          <button className="bg-white text-lg w-full font-medium hover:bg-gray-100 hover:shadow-lg transition-all px-6 py-2 rounded" onClick={newNew}>
             Nueva Noticia
           </button>
         </div>
@@ -109,6 +114,7 @@ function News() {
         </div>
       </Modal>
     </Layout>
+    </>
   );
 }
 

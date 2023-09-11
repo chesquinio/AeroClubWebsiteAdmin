@@ -1,8 +1,9 @@
-import EditSections from '@/components/EditSections';
-import Layout from '@/components/Layout'
-import axios from 'axios';
-import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react'
+import EditSections from "@/components/EditSections";
+import Layout from "@/components/Layout";
+import axios from "axios";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
 
 function AeroClubPage() {
   const [id, setId] = useState("");
@@ -64,27 +65,32 @@ function AeroClubPage() {
   };
 
   return (
-    <Layout>
-      <div className="bg-white listWidth my-5 mx-auto text-center py-2 rounded text-xl">
-        <h1 className="font-light text-2xl">Apartado AeroClub</h1>
-      </div>
-      <EditSections
-        primaryTitle={primaryTitle}
-        setPrimaryTitle={setPrimaryTitle}
-        primaryInfo={primaryInfo}
-        setPrimaryInfo={setPrimaryInfo}
-        primaryImage={primaryImage}
-        setPrimaryImage={setPrimaryImage}
-        isUploading={isUploading}
-        uploadImage={uploadImage}
-        isToggleBotton={isToggleBotton}
-        handleToggle={handleToggle}
-        textBotton={textBotton}
-        setTextBotton={setTextBotton}
-        saveData={saveAeroClubData}
-      />
-    </Layout>
-  )
+    <>
+      <Head>
+        <title>Aeronautica | Aero Club Admin</title>
+      </Head>
+      <Layout>
+        <div className="bg-transparent text-white listWidth my-5 mx-auto text-center py-2 rounded text-xl">
+          <h1 className="font-normal text-4xl">Apartado AeroClub</h1>
+        </div>
+        <EditSections
+          primaryTitle={primaryTitle}
+          setPrimaryTitle={setPrimaryTitle}
+          primaryInfo={primaryInfo}
+          setPrimaryInfo={setPrimaryInfo}
+          primaryImage={primaryImage}
+          setPrimaryImage={setPrimaryImage}
+          isUploading={isUploading}
+          uploadImage={uploadImage}
+          isToggleBotton={isToggleBotton}
+          handleToggle={handleToggle}
+          textBotton={textBotton}
+          setTextBotton={setTextBotton}
+          saveData={saveAeroClubData}
+        />
+      </Layout>
+    </>
+  );
 }
 
-export default AeroClubPage
+export default AeroClubPage;

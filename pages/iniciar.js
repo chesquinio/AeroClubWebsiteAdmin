@@ -1,26 +1,39 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
+import Spinner from "@/components/Spinner";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false)
   const router = useRouter();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      router.push("/");
+    }
+  }, []);
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
     try {
+      setIsLoading(true)
       const response = await axios.post("/api/auth", { email, password });
       setMessage(response.data.message);
 
       const token = response.data.token;
       localStorage.setItem("token", token);
+      setIsLoading(false)
 
       router.push("/");
     } catch (error) {
       setMessage(error.response.data.message);
+      setIsLoading(false)
     }
   };
 
@@ -57,10 +70,16 @@ export default function LoginPage() {
       </div>
       <div className="w-full p-6 md:px-2">
         <button
-          className="bg-primary w-full text-white text-lg py-2 px-4 rounded-md hover:bg-cyan-600 transition-all"
+          className="bg-primary w-full text-white text-lg h-11 py-2 px-4 rounded-md hover:bg-cyan-600 transition-all"
           onClick={handleLogin}
         >
-          Iniciar
+          {isLoading ? (
+            <div className="flex justify-center items-center w-full h-full">
+               <Spinner />
+            </div>
+          ) : (
+            'Iniciar'
+          )}
         </button>
       </div>
     </div>
