@@ -40,7 +40,7 @@ function InscriptionsPage({ inscriptions }) {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-5">
             {filteredInscriptions.map((inscription) => (
               <Link
-                href={`/colonia/inscripciones/${inscription.documento}`}
+                href={`/parque/colonia/${inscription.documento}`}
                 key={inscription._id}
                 className="bg-white p-4 shadow-md rounded-lg hover:shadow-lg hover:bg-gray-100 transition-all"
               >
