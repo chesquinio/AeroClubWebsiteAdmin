@@ -69,6 +69,12 @@ function InscriptionPage({ inscription }) {
               </label>
               <p className="text-gray-800 font-medium">{inscription.celular}</p>
             </div>
+            <div className="flex flex-col">
+              <label className="text-gray-600 text-sm">
+                Email:
+              </label>
+              <p className="text-gray-800 font-medium">{inscription.email}</p>
+            </div>
           </div>
           <h4 className="mb-3 text-lg font-medium text-gray-600">
             Categoria de Inscripción

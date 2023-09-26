@@ -10,6 +10,7 @@ const CampingFormSchema = new Schema({
   telefono: String,
   telefonoEmergencia: String,
   celular: String,
+  email: String,
   categoriaInscripcion: {
     socio: String,
     particular: String,

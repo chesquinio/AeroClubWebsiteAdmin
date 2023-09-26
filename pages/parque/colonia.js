@@ -37,24 +37,32 @@ function InscriptionsPage({ inscriptions }) {
           </div>
         </div>
         {filteredInscriptions.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-5">
+          <div className="grid grid-cols-1 gap-2 mt-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 text-center sm:text-justify bg-white py-2 px-4 shadow-md rounded">
+                <p className="font-medium">Nombre y Apellido</p>
+                <p className="hidden xl:inline font-medium">Documento</p>
+                <p className="hidden lg:inline font-medium">Dirección</p>
+                <p className="hidden sm:inline font-medium">Email</p>
+            </div>
             {filteredInscriptions.map((inscription) => (
               <Link
                 href={`/parque/colonia/${inscription.documento}`}
                 key={inscription._id}
-                className="bg-white p-4 shadow-md rounded-lg hover:shadow-lg hover:bg-gray-100 transition-all"
+                className="bg-white py-2 px-4 shadow-md rounded hover:shadow-lg hover:bg-gray-100 transition-all"
               >
-                <p className="text-lg font-semibold">
-                  {inscription.nombre} {inscription.apellido}
-                </p>
-                <p className="text-gray-600">
-                  Documento: {inscription.documento}
-                </p>
-                <p className="text-gray-600">
-                  Localidad: {inscription.localidad} | Domicilio:{" "}
-                  {inscription.domicilio}
-                </p>
-                <p className="text-gray-600">Teléfono: {inscription.telefono}</p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 text-justify">
+                  <p className="text-md font-medium">
+                    {inscription.nombre} {inscription.apellido}
+                  </p>
+                  <p className="hidden xl:inline text-gray-600">
+                    {inscription.documento}
+                  </p>
+                  <p className="hidden lg:inline text-gray-600">
+                    {inscription.localidad} | {" "}
+                    {inscription.domicilio}
+                  </p>
+                  <p className="text-sm md:text-base text-gray-600 hidden sm:inline">{inscription.email}</p>
+                </div>
               </Link>
             ))}
           </div>
