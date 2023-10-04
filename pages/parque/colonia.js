@@ -12,7 +12,7 @@ function InscriptionsPage() {
 
   useEffect(() => {
     fetchForms();
-  }, []);
+  }, [fetchForms]);
 
   async function fetchForms() {
     try {
@@ -95,7 +95,7 @@ function InscriptionsPage() {
               </button>
             </div>
             {filteredInscriptions.map((inscription) => (
-              <div className="flex flex-row">
+              <div key={inscription.documento} className="flex flex-row">
                 <Link
                   href={`/parque/colonia/${inscription.documento}`}
                   key={inscription._id}

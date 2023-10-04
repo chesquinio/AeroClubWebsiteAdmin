@@ -7,14 +7,15 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
-  const [isLoading, setIsLoading] = useState(false)
-  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+  const routerRef = useRef();
+  routerRef.current = useRouter();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
 
     if (token) {
-      router.push("/");
+      routerRef.current.push("/");
     }
   }, []);
 
@@ -22,18 +23,18 @@ export default function LoginPage() {
     e.preventDefault();
 
     try {
-      setIsLoading(true)
+      setIsLoading(true);
       const response = await axios.post("/api/auth", { email, password });
       setMessage(response.data.message);
 
       const token = response.data.token;
       localStorage.setItem("token", token);
-      setIsLoading(false)
+      setIsLoading(false);
 
-      router.push("/");
+      routerRef.current.push("/");
     } catch (error) {
       setMessage(error.response.data.message);
-      setIsLoading(false)
+      setIsLoading(false);
     }
   };
 
@@ -75,10 +76,10 @@ export default function LoginPage() {
         >
           {isLoading ? (
             <div className="flex justify-center items-center w-full h-full">
-               <Spinner />
+              <Spinner />
             </div>
           ) : (
-            'Iniciar'
+            "Iniciar"
           )}
         </button>
       </div>
