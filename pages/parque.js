@@ -84,13 +84,13 @@ function CampingPage() {
           <div className="flex flex-col justify-center listWidth mb-4 gap-4 mx-auto">
             <Link
               href={"/parque/colonia"}
-              className="bg-white text-gray-500 hover:shadow-lg hover:text-black hover:bg-gray-100 transition-all duration-500 py-2 rounded text-lg md:text-xl text-center w-full"
+              className="bg-white text-gray-500 hover:shadow-lg shadow-gray-700 hover:text-black hover:bg-gray-100 transition-all py-2 rounded text-lg md:text-xl text-center w-full"
             >
               Incripciones Colonia
             </Link>
             <button
               onClick={() => toggleSection()}
-              className="bg-white text-gray-500 hover:shadow-lg hover:text-black hover:bg-gray-100 transition-all duration-500 py-2 rounded text-lg md:text-xl text-center w-full"
+              className="bg-white text-gray-500 hover:shadow-lg shadow-gray-700 hover:text-black hover:bg-gray-100 transition-all py-2 rounded text-lg md:text-xl text-center w-full"
             >
               Editar Sección
             </button>

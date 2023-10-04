@@ -20,6 +20,7 @@ function FormNew({
   const [selectedImage, setSelectedImage] = useState(null);
   const [editMode, setEditMode] = useState(false);
   const [selectedEditImage, setSelectedEditImage] = useState(null);
+  const [message, setMessage] = useState(null);
   const router = useRouter();
 
   async function saveNew(ev) {
@@ -45,16 +46,24 @@ function FormNew({
     const files = ev.target?.files;
 
     if (files?.length > 0) {
-      setIsUploading(true);
-      const data = new FormData();
-      for (const file of files) {
-        data.append("file", file);
+      if (
+        files.type === "image/png" ||
+        files.type === "image/jpg" ||
+        files.type === "image/jpeg"
+      ) {
+        setIsUploading(true);
+        const data = new FormData();
+        for (const file of files) {
+          data.append("file", file);
+        }
+        const res = await axios.post("/api/upload", data);
+        setNewImages((oldImages) => {
+          return [...oldImages, ...res.data.links];
+        });
+        setIsUploading(false);
+      } else {
+        setMessage("El formato de la imagen no es valido");
       }
-      const res = await axios.post("/api/upload", data);
-      setNewImages((oldImages) => {
-        return [...oldImages, ...res.data.links];
-      });
-      setIsUploading(false);
     }
   }
 
@@ -62,25 +71,34 @@ function FormNew({
     const files = ev.target?.files;
 
     if (files?.length > 0) {
-      setIsUploading(true);
+      if (
+        files.type === "image/png" ||
+        files.type === "image/jpg" ||
+        files.type === "image/jpeg"
+      ) {
+        setIsUploading(true);
 
-      const currentOldImageLink = selectedEditImage;
+        const currentOldImageLink = selectedEditImage;
 
-      const data = new FormData();
-      for (const file of files) {
-        data.append("file", file);
+        const data = new FormData();
+        for (const file of files) {
+          data.append("file", file);
+        }
+        const res = await axios.post("/api/upload", data, {
+          params: { oldImageLink: selectedEditImage },
+        });
+        setNewImages((oldImages) =>
+          oldImages.map((link) =>
+            link === currentOldImageLink ? res.data.links[0] : link
+          )
+        );
+
+        setEditMode(false);
+        setIsUploading(false);
+      } else {
+        setMessage("El formato de la imagen no es valido");
+        setEditMode(false);
       }
-      const res = await axios.post("/api/upload", data, {
-        params: { oldImageLink: selectedEditImage },
-      });
-      setNewImages((oldImages) =>
-        oldImages.map((link) =>
-          link === currentOldImageLink ? res.data.links[0] : link
-        )
-      );
-
-      setEditMode(false);
-      setIsUploading(false);
     }
   }
 
@@ -104,28 +122,28 @@ function FormNew({
   };
 
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center shadow-lg shadow-gray-700 rounded-lg">
       <form
         onSubmit={saveNew}
-        className="flex flex-col w-full gap-5 bg-white p-7 px-5 mb-5 rounded-lg"
+        className="flex flex-col w-full gap-5 bg-white p-7 px-5 rounded-lg"
       >
         <div className="flex flex-col">
-          <label className="text-xl font-normal">Nombre de la noticia</label>
+          <label className="text-xl font-normal">Título de la noticia</label>
           <input
             value={newTitle}
             onChange={(e) => setNewTitle(e.target.value)}
-            className="p-2 mt-2"
+            className="p-2 mt-2 outline-none"
             type="text"
-            placeholder="Escriba el nombre..."
+            placeholder="Escriba el título..."
           />
         </div>
         <div className="flex flex-col">
-          <label className="text-xl font-normal">Descripcion</label>
+          <label className="text-xl font-normal">Descripción</label>
           <textarea
             value={newDescription}
             onChange={(e) => setNewDescription(e.target.value)}
-            className="p-2 mt-2 resize-none h-20"
-            placeholder="Escriba la descripcion..."
+            className="p-2 mt-2 resize-none h-20 outline-none"
+            placeholder="Escriba la descripción..."
           />
         </div>
         <div className="flex justify-between">
@@ -243,7 +261,11 @@ function FormNew({
             </label>
           )}
         </div>
-
+        {message && (
+          <div>
+            <p className="text-gray-500 text-base">{message}</p>
+          </div>
+        )}
         <div>
           <button
             className="w-full bg-primary hover:bg-cyan-700 transition-all text-white py-2 rounded-md"

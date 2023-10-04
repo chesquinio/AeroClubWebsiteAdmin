@@ -2,7 +2,7 @@ import Nav from "./Nav";
 import ResponsiveNav from "./ResponsiveNav";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
 import jwtDecode from "jwt-decode";
 
 function Layout({ children }) {
@@ -20,8 +20,8 @@ function Layout({ children }) {
         const currentTime = Date.now() / 1000;
 
         if (decodedToken.exp < currentTime) {
-          localStorage.removeItem("token"); 
-          router.push("/iniciar"); 
+          localStorage.removeItem("token");
+          router.push("/iniciar");
         }
       } catch (error) {
         console.error("Error al decodificar el token:", error);
@@ -36,8 +36,8 @@ function Layout({ children }) {
   };
 
   return (
-    <div className="bg-primary min-h-screen">
-      <div className="flex">
+    <div className="bg-primary min-h-screen w-full">
+      <div className="">
         {showResponsiveNav ? (
           <div className="flex flex-col">
             <div className="flex justify-end px-5 py-4">

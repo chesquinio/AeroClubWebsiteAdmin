@@ -19,9 +19,9 @@ function EditSections({
   return (
     <form
       onSubmit={saveData}
-      className="w-full xl:w-4/5 mx-auto bg-white p-5 xl:p-10 rounded-md"
+      className="w-full xl:w-4/5 mx-auto bg-white mb-8 p-5 xl:p-10 shadow-lg shadow-gray-700 rounded-md"
     >
-      <div className="flex flex-col lg:flex-row ">
+      <div className="flex flex-col lg:flex-row">
         <div className="w-full lg:w-3/5 xl:w-1/2 mx-auto lg:mx-0 mt-6 lg:mt-0">
           <div className="bg-gray-200 h-52 w-4/5 mx-auto rounded-lg flex justify-center items-center">
             {isUploading && primaryImage && (
@@ -53,7 +53,7 @@ function EditSections({
           <div className="flex flex-col gap-2">
             <input
               type="text"
-              className="text-2xl px-4 py-2 mb-2 border rounded focus:outline-none border-none"
+              className="text-xl sm:text-2xl px-4 py-2 mb-2 border rounded focus:outline-none border-none"
               value={primaryTitle}
               onChange={(e) => setPrimaryTitle(e.target.value)}
               placeholder="Escriba un titulo principal..."
@@ -61,7 +61,7 @@ function EditSections({
           </div>
           <div className="flex flex-col gap-2">
             <textarea
-              className="text-md px-4 py-2 h-40 rounded focus:outline-none resize-none border-none"
+              className="text-sm sm:text-base px-4 py-2 h-40 rounded focus:outline-none resize-none border-none"
               value={primaryInfo}
               onChange={(e) => setPrimaryInfo(e.target.value)}
               placeholder="Escriba una descripcion..."
@@ -97,7 +97,6 @@ function EditSections({
               <div className="h-px my-1 bg-gray-400"></div>
             </div>
           )}
-          
         </div>
       </div>
       <div className="flex justify-center">
