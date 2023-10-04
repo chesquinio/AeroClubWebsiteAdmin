@@ -30,16 +30,26 @@ function FormNew({
       newDescription,
       newImages,
     };
-    if (_id) {
-      await axios.put("/api/news", { ...data, _id });
-    } else {
-      await axios.post("/api/news", data);
-    }
-    router.push("/noticias");
+    if (data.newTitle !== "" && data.newDescription !== "") {
+      if (!newImages) {
+        if (_id) {
+          await axios.put("/api/news", { ...data, _id });
+        } else {
+          await axios.post("/api/news", data);
+        }
+        router.push("/noticias");
 
-    setNewTitle("");
-    setNewDescription("");
-    setNewImages("");
+        setNewTitle("");
+        setNewDescription("");
+        setNewImages("");
+      } else {
+        setMessage("Es necesario agregar al menos una imagen");
+      }
+    } else {
+      setMessage(
+        "Es nesesario completar todos los campos para crear o guardar una noticia"
+      );
+    }
   }
 
   async function uploadImage(ev) {
@@ -47,10 +57,11 @@ function FormNew({
 
     if (files?.length > 0) {
       if (
-        files.type === "image/png" ||
-        files.type === "image/jpg" ||
-        files.type === "image/jpeg"
+        files[0].type === "image/png" ||
+        files[0].type === "image/jpg" ||
+        files[0].type === "image/jpeg"
       ) {
+        setMessage(null);
         setIsUploading(true);
         const data = new FormData();
         for (const file of files) {
@@ -72,9 +83,9 @@ function FormNew({
 
     if (files?.length > 0) {
       if (
-        files.type === "image/png" ||
-        files.type === "image/jpg" ||
-        files.type === "image/jpeg"
+        files[0].type === "image/png" ||
+        files[0].type === "image/jpg" ||
+        files[0].type === "image/jpeg"
       ) {
         setIsUploading(true);
 
@@ -142,7 +153,7 @@ function FormNew({
           <textarea
             value={newDescription}
             onChange={(e) => setNewDescription(e.target.value)}
-            className="p-2 mt-2 resize-none h-20 outline-none"
+            className="p-2 mt-2 resize-none h-36 outline-none"
             placeholder="Escriba la descripción..."
           />
         </div>
