@@ -12,23 +12,26 @@ function Layout({ children }) {
   useEffect(() => {
     const token = localStorage.getItem("token");
 
-    if (!token) {
-      router.push("/iniciar");
-    } else {
-      try {
-        const decodedToken = jwtDecode(token);
-        const currentTime = Date.now() / 1000;
+    const watchToken = () => {
+      if (!token) {
+        router.push("/iniciar");
+      } else {
+        try {
+          const decodedToken = jwtDecode(token);
+          const currentTime = Date.now() / 1000;
 
-        if (decodedToken.exp < currentTime) {
+          if (decodedToken.exp < currentTime) {
+            localStorage.removeItem("token");
+            router.push("/iniciar");
+          }
+        } catch (error) {
+          console.error("Error al decodificar el token:", error);
           localStorage.removeItem("token");
           router.push("/iniciar");
         }
-      } catch (error) {
-        console.error("Error al decodificar el token:", error);
-        localStorage.removeItem("token");
-        router.push("/iniciar");
       }
-    }
+    };
+    watchToken();
   }, []);
 
   const toggleResponsiveNav = () => {
