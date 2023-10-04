@@ -1,21 +1,21 @@
 import Nav from "./Nav";
 import ResponsiveNav from "./ResponsiveNav";
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import jwtDecode from "jwt-decode";
 
 function Layout({ children }) {
   const [showResponsiveNav, setShowResponsiveNav] = useState(false);
-  const router = useRouter();
+  const routerRef = useRef();
+  routerRef.current = useRouter();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
 
     const watchToken = () => {
       if (!token) {
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        router.push("/iniciar");
+        routerRef.current.push("/iniciar");
       } else {
         try {
           const decodedToken = jwtDecode(token);
@@ -23,14 +23,12 @@ function Layout({ children }) {
 
           if (decodedToken.exp < currentTime) {
             localStorage.removeItem("token");
-            // eslint-disable-next-line react-hooks/exhaustive-deps
-            router.push("/iniciar");
+            routerRef.current.push("/iniciar");
           }
         } catch (error) {
           console.error("Error al decodificar el token:", error);
           localStorage.removeItem("token");
-          // eslint-disable-next-line react-hooks/exhaustive-deps
-          router.push("/iniciar");
+          routerRef.current.push("/iniciar");
         }
       }
     };
