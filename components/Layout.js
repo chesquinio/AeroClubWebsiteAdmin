@@ -14,6 +14,7 @@ function Layout({ children }) {
 
     const watchToken = () => {
       if (!token) {
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         router.push("/iniciar");
       } else {
         try {
@@ -22,11 +23,13 @@ function Layout({ children }) {
 
           if (decodedToken.exp < currentTime) {
             localStorage.removeItem("token");
+            // eslint-disable-next-line react-hooks/exhaustive-deps
             router.push("/iniciar");
           }
         } catch (error) {
           console.error("Error al decodificar el token:", error);
           localStorage.removeItem("token");
+          // eslint-disable-next-line react-hooks/exhaustive-deps
           router.push("/iniciar");
         }
       }
