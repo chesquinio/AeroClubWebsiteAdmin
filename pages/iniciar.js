@@ -39,9 +39,9 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex flex-col justify-between md:justify-center items-center h-screen md:w-96 md:mx-auto">
-      <div className="bg-white rounded-lg p-6 w-full mx-auto md:shadow-lg">
-        <h1 className="text-2xl font-light text-center mb-4">Iniciar Sesión</h1>
+    <div className="flex flex-col justify-center items-center h-screen w-96 mx-auto">
+      <div className="bg-white rounded-lg p-6 w-full mx-auto sm:shadow-lg">
+        <h1 className="text-3xl font-light text-center mb-4">Iniciar Sesión</h1>
         <div className="h-px bg-gray-400"></div>
         <div className="mb-4 mt-10">
           <label className="block text-gray-600 text-lg font-medium mb-1">
@@ -49,7 +49,7 @@ export default function LoginPage() {
           </label>
           <input
             type="text"
-            className="w-full border-gray-300 py-2 px-2 rounded-md focus:ring focus:ring-blue-300 focus:border-blue-300"
+            className="w-full border-gray-300 py-3 px-2 rounded-md outline-none"
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -61,7 +61,7 @@ export default function LoginPage() {
           </label>
           <input
             type="password"
-            className="w-full border-gray-300 py-2 px-2 rounded-md focus:ring focus:ring-blue-300 focus:border-blue-300"
+            className="w-full border-gray-300 py-3 px-2 rounded-md outline-none"
             placeholder="Contraseña"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -69,7 +69,7 @@ export default function LoginPage() {
         </div>
         {message && <p className="text-gray-500 mt-2">{message}</p>}
       </div>
-      <div className="w-full p-6 md:px-2">
+      <div className="w-full px-4 py-10 sm:px-2">
         <button
           className="bg-primary w-full text-white text-lg h-11 py-2 px-4 rounded-md hover:bg-cyan-600 transition-all"
           onClick={handleLogin}
