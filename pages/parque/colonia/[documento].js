@@ -1,15 +1,9 @@
 import Layout from "@/components/Layout";
 import { mongooseConnect } from "@/lib/mongoose";
 import { CampingForm } from "@/model/CampingForm";
-import { format } from "date-fns";
 import Link from "next/link";
 
 function InscriptionPage({ inscription }) {
-  const fechaFormateada = format(
-    new Date(inscription.fechaNacimiento),
-    "dd/MM/yyyy"
-  );
-
   return (
     <>
       <Layout>
@@ -26,6 +20,9 @@ function InscriptionPage({ inscription }) {
             </Link>
           </div>
           <div className="flex flex-col justify-center bg-white rounded-lg shadow-lg mb-8 p-4 shadow-gray-700">
+            <h3 className="mb-3 text-lg font-medium text-gray-600">
+              Datos Relevantes:
+            </h3>
             <div className="grid grid-cols-2 gap-4 mb-4">
               <div className="flex flex-col">
                 <label className="text-gray-600 text-sm">
@@ -36,10 +33,10 @@ function InscriptionPage({ inscription }) {
                 </p>
               </div>
               <div className="flex flex-col">
-                <label className="text-gray-600 text-sm">
-                  Fecha de Nacimiento:
-                </label>
-                <p className="text-gray-800 font-medium">{fechaFormateada}</p>
+                <label className="text-gray-600 text-sm">Edad:</label>
+                <p className="text-gray-800 font-medium">
+                  {inscription.edadChico}
+                </p>
               </div>
               <div className="flex flex-col">
                 <label className="text-gray-600 text-sm">Documento:</label>
@@ -48,67 +45,28 @@ function InscriptionPage({ inscription }) {
                 </p>
               </div>
               <div className="flex flex-col">
-                <label className="text-gray-600 text-sm">Teléfono:</label>
-                <p className="text-gray-800 font-medium">
-                  {inscription.telefono}
-                </p>
+                <label className="text-gray-600 text-sm">Curso:</label>
+                <p className="text-gray-800 font-medium">{inscription.curso}</p>
               </div>
-              <div className="flex flex-col">
-                <label className="text-gray-600 text-sm">Domicilio:</label>
-                <p className="text-gray-800 font-medium">
-                  {inscription.domicilio}
-                </p>
-              </div>
-              <div className="flex flex-col">
-                <label className="text-gray-600 text-sm">Localidad:</label>
-                <p className="text-gray-800 font-medium">
-                  {inscription.localidad}
-                </p>
-              </div>
+              {inscription.hermanoDe && (
+                <div className="flex flex-col">
+                  <label className="text-gray-600 text-sm">Hermano de:</label>
+                  <p className="text-gray-800 font-medium">
+                    {inscription.hermanoDe}
+                  </p>
+                </div>
+              )}
               <div className="flex flex-col">
                 <label className="text-gray-600 text-sm">
-                  Teléfono de Emergencia:
+                  Email del Padre:
                 </label>
-                <p className="text-gray-800 font-medium">
-                  {inscription.telefonoEmergencia}
-                </p>
-              </div>
-              <div className="flex flex-col">
-                <label className="text-gray-600 text-sm">
-                  Celular para WhatsApp:
-                </label>
-                <p className="text-gray-800 font-medium">
-                  {inscription.celular}
-                </p>
-              </div>
-              <div className="flex flex-col">
-                <label className="text-gray-600 text-sm">Email:</label>
                 <p className="text-gray-800 font-medium">{inscription.email}</p>
               </div>
             </div>
-            <h4 className="mb-3 text-lg font-medium text-gray-600">
-              Categoria de Inscripción
-            </h4>
-            <div className="grid grid-cols-2 gap-4 mb-4">
-              <div className="flex flex-col">
-                <p className="text-gray-800 font-semibold">
-                  {inscription.categoriaInscripcion.socio === "si"
-                    ? "Socio"
-                    : "No Socio"}
-                </p>
-              </div>
-              <div className="flex flex-col">
-                <p className="text-gray-800 font-semibold">
-                  {inscription.categoriaInscripcion.particular === "si"
-                    ? "Particular"
-                    : "No Particular"}
-                </p>
-              </div>
-            </div>
             <div className="h-px bg-gray-400 mb-4"></div>
-            <h4 className="mb-3 text-lg font-medium text-gray-600">
+            <h3 className="mb-3 text-lg font-medium text-gray-600">
               Historia Cínica
-            </h4>
+            </h3>
             <h5 className="mb-2 text-md font-medium text-gray-500">
               Alergias:
             </h5>
@@ -163,12 +121,14 @@ function InscriptionPage({ inscription }) {
                   {inscription.medicoCabecera.nombre}
                 </p>
               </div>
-              <div className="flex flex-col">
-                <label className="text-gray-600 text-sm">Télefono:</label>
-                <p className="text-gray-800 font-medium">
-                  {inscription.medicoCabecera.telefono}
-                </p>
-              </div>
+              {inscription.medicoCabecera.telefono && (
+                <div className="flex flex-col">
+                  <label className="text-gray-600 text-sm">Télefono:</label>
+                  <p className="text-gray-800 font-medium">
+                    {inscription.medicoCabecera.telefono}
+                  </p>
+                </div>
+              )}
             </div>
             <h5 className="mb-2 text-md font-medium text-gray-500">
               Obra Social:
@@ -180,12 +140,14 @@ function InscriptionPage({ inscription }) {
                   {inscription.obraSocial.nombre}
                 </p>
               </div>
-              <div className="flex flex-col">
-                <label className="text-gray-600 text-sm">Télefono:</label>
-                <p className="text-gray-800 font-medium">
-                  {inscription.obraSocial.telefono}
-                </p>
-              </div>
+              {inscription.obraSocial.telefono && (
+                <div className="flex flex-col">
+                  <label className="text-gray-600 text-sm">Télefono:</label>
+                  <p className="text-gray-800 font-medium">
+                    {inscription.obraSocial.telefono}
+                  </p>
+                </div>
+              )}
             </div>
             <h5 className="mb-2 text-md font-medium text-gray-500">
               Padecimientos:
@@ -283,7 +245,7 @@ function InscriptionPage({ inscription }) {
                 )}
               </div>
             </div>
-            <div className="grid grid-cols-3 gap-4 mb-4">
+            <div className="grid grid-cols-4 gap-4 mb-4">
               <div className="flex flex-col">
                 <label className="text-gray-600 text-sm">
                   Se Mantiene a Flote:
@@ -306,34 +268,84 @@ function InscriptionPage({ inscription }) {
                   {inscription.grupoSanguineo}
                 </p>
               </div>
+              {inscription.datoRelevante && (
+                <div className="flex flex-col">
+                  <label className="text-gray-600 text-sm">
+                    Dato Relevante:
+                  </label>
+                  <p className="text-gray-800 font-medium">
+                    {inscription.datoRelevante}
+                  </p>
+                </div>
+              )}
             </div>
-            <h5 className="mb-2 text-md font-medium text-gray-500">
-              Certificados:
-            </h5>
-            <div className="grid grid-cols-2 gap-4 mb-4">
-              <div className="flex flex-col">
-                <label className="text-gray-600 text-sm mb-2">
-                  Certificado Médico:
-                </label>
-                <a
-                  href={inscription.certificadoMedico[0]}
-                  target="_blank"
-                  className="w-full border border-gray-500 text-center py-2 rounded text-gray-500 hover:shadow-lg hover:text-gray-900 transition-all font-medium"
-                >
-                  Descargar PDF
-                </a>
-              </div>
-              <div className="flex flex-col">
-                <label className="text-gray-600 text-sm mb-2">
-                  Buco Dentál:
-                </label>
-                <a
-                  href={inscription.bucoDental[0]}
-                  target="_blank"
-                  className="w-full border border-gray-500 text-center py-2 rounded text-gray-500 hover:shadow-lg hover:text-gray-900 transition-all font-medium"
-                >
-                  Descargar PDF
-                </a>
+            {inscription.childrenAuth && (
+              <>
+                <div className="h-px bg-gray-400 mb-4"></div>
+                <h3 className="mb-3 text-lg font-medium text-gray-600">
+                  {`Autorización de ${
+                    inscription.childrenAuth[0] ? "Retiro" : ""
+                  }${
+                    inscription.childrenAuth[0] && inscription.childrenAuth[1]
+                      ? " y "
+                      : ""
+                  }${inscription.childrenAuth[1] ? "Salida" : ""}`}
+                </h3>
+                <div className="grid grid-cols-3 gap-4 mb-4">
+                  <div className="flex flex-col">
+                    <label className="text-gray-600 text-sm">
+                      Madre, Padre o Tutor Responsable:
+                    </label>
+                    <p className="text-gray-800 font-medium">
+                      {inscription.pariente} | D.N.I:{" "}
+                      {inscription.parienteDocumento}
+                    </p>
+                  </div>
+                  <div className="flex flex-col">
+                    <label className="text-gray-600 text-sm">
+                      Pariente Autorizado:
+                    </label>
+                    <p className="text-gray-800 font-medium">
+                      {inscription.parienteAuth} | D.N.I:{" "}
+                      {inscription.parienteAuthDocumento}
+                    </p>
+                  </div>
+                  {inscription.parentescoParienteAuth && (
+                    <div className="flex flex-col">
+                      <label className="text-gray-600 text-sm">
+                        Parentesco del Pariente:
+                      </label>
+                      <p className="text-gray-800 font-medium">
+                        {inscription.parentescoParienteAuth} | Celular:{" "}
+                        {inscription.celParienteAuth}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </>
+            )}
+            <div className="h-px bg-gray-400 mb-4"></div>
+            <div>
+              <h3 className="mb-3 text-lg font-medium text-gray-600">
+                Autorizaciones Adicionales
+              </h3>
+              <div className="grid grid-cols-2 gap-4 mb-4">
+                <div className="flex flex-col">
+                  <label className="text-gray-600 text-sm">
+                    Autorización de Derechos de Imagen:
+                  </label>
+                  <p className="text-gray-800 font-medium">
+                    {inscription.autorizacionImagen ? "Aceptada" : "Rechazada"}
+                  </p>
+                </div>
+                <div className="flex flex-col">
+                  <label className="text-gray-600 text-sm">
+                    Autorización de Cámbio de Ropa:
+                  </label>
+                  <p className="text-gray-800 font-medium">
+                    {inscription.autorizacionRopa ? "Aceptada" : "Rechazada"}
+                  </p>
+                </div>
               </div>
             </div>
           </div>

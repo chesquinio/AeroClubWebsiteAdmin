@@ -84,7 +84,7 @@ function InscriptionsPage() {
               <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 items-center bg-white py-2 px-4 shadow-md rounded">
                 <p className="font-medium">Nombre / Apellido</p>
                 <p className="hidden xl:inline font-medium">Documento</p>
-                <p className="hidden lg:inline font-medium">Dirección</p>
+                <p className="hidden lg:inline font-medium">Edad</p>
                 <p className="hidden sm:inline font-medium">Email</p>
               </div>
               <button
@@ -109,7 +109,7 @@ function InscriptionsPage() {
                       {inscription.documento}
                     </p>
                     <p className="hidden lg:inline text-gray-600">
-                      {inscription.localidad} | {inscription.domicilio}
+                      {inscription.edadChico}
                     </p>
                     <p className="text-sm md:text-base text-gray-600 hidden sm:inline">
                       {inscription.email}
