@@ -327,6 +327,40 @@ function InscriptionPage({ inscription }) {
             <div className="h-px bg-gray-400 mb-4"></div>
             <div>
               <h3 className="mb-3 text-lg font-medium text-gray-600">
+                Certificados
+              </h3>
+              <div className="grid grid-cols-2 gap-4 mb-4">
+                <div className="flex flex-col">
+                  <label className="text-gray-600 text-sm">
+                    Certificado Medico:
+                  </label>
+                  <a
+                    href={inscription.certifications[0]}
+                    target="_blanck"
+                    className="text-gray-800 font-medium hover:text-gray-500 transition-all"
+                  >
+                    {inscription.certifications[0]
+                      ? "Descargar PDF"
+                      : "No se encuentra el PDF"}
+                  </a>
+                </div>
+                <div className="flex flex-col">
+                  <label className="text-gray-600 text-sm">Buco Dental:</label>
+                  <a
+                    href={inscription.certifications[1]}
+                    target="_blanck"
+                    className="text-gray-800 font-medium hover:text-gray-500 transition-all"
+                  >
+                    {inscription.certifications[1]
+                      ? "Descargar PDF"
+                      : "No se encuentra el PDF"}
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div className="h-px bg-gray-400 mb-4"></div>
+            <div>
+              <h3 className="mb-3 text-lg font-medium text-gray-600">
                 Autorizaciones Adicionales
               </h3>
               <div className="grid grid-cols-2 gap-4 mb-4">

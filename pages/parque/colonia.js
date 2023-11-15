@@ -9,10 +9,12 @@ function InscriptionsPage() {
   const [filteredInscriptions, setFilteredInscriptions] = useState([]);
   const [deleteModalIsOpen, setDeleteModalIsOpen] = useState(false);
   const [idFormToDelete, setIdFormToDelete] = useState(null);
+  const [ropaFilter, setRopaFilter] = useState(null);
+  const [imagenFilter, setImagenFilter] = useState(null);
 
   useEffect(() => {
     fetchForms();
-  }, [fetchForms]);
+  }, [searchTerm, ropaFilter, imagenFilter]);
 
   async function fetchForms() {
     try {
@@ -29,12 +31,45 @@ function InscriptionsPage() {
         inscriptionArray.filter((inscription) => {
           const fullName =
             `${inscription.nombre} ${inscription.apellido}`.toLowerCase();
-          return fullName.includes(searchTerm.toLowerCase());
+          const hasRopaAuthorization =
+            ropaFilter === null || inscription.autorizacionRopa === ropaFilter;
+          const hasImagenAuthorization =
+            imagenFilter === null ||
+            inscription.autorizacionImagen === imagenFilter;
+          return (
+            fullName.includes(searchTerm.toLowerCase()) &&
+            hasRopaAuthorization &&
+            hasImagenAuthorization
+          );
         })
       );
     } catch (error) {
       console.error("Error fetching forms:", error);
     }
+  }
+
+  function toggleRopaFilter() {
+    setRopaFilter((prevFilter) => {
+      if (prevFilter === null) {
+        return true;
+      } else if (prevFilter === true) {
+        return false;
+      } else {
+        return null;
+      }
+    });
+  }
+
+  function toggleImagenFilter() {
+    setImagenFilter((prevFilter) => {
+      if (prevFilter === null) {
+        return true;
+      } else if (prevFilter === true) {
+        return false;
+      } else {
+        return null;
+      }
+    });
   }
 
   function openDeleteModal(id) {
@@ -66,7 +101,55 @@ function InscriptionsPage() {
   return (
     <>
       <Layout>
-        <div className="w-full flex justify-center md:justify-end">
+        <div className="w-full flex flex-col sm:flex-row justify-center md:justify-end sm:gap-5 text-sm md:text-base">
+          <div
+            className={`flex flex-row items-center p-2 rounded h-10 w-full md:w-60 mt-5 hover:text-gray-900 ${
+              ropaFilter === true || ropaFilter === false
+                ? "bg-gray-100 shadow-sm shadow-gray-600"
+                : "bg-white text-gray-600"
+            }`}
+          >
+            {ropaFilter !== null ? (
+              ropaFilter === true ? (
+                <i className="bx bx-up-arrow-alt"></i>
+              ) : (
+                <i className="bx bx-x"></i>
+              )
+            ) : (
+              <i className="bx bx-down-arrow-alt"></i>
+            )}
+            <button
+              onClick={toggleRopaFilter}
+              className="p-2 w-full"
+              type="button"
+            >
+              Aut. Cambio de Ropa
+            </button>
+          </div>
+          <div
+            className={`flex flex-row items-center p-2 rounded h-10 w-full md:w-60 mt-5 hover:text-gray-900 ${
+              imagenFilter === true || imagenFilter === false
+                ? "bg-gray-100 shadow-sm shadow-gray-600"
+                : "bg-white text-gray-600"
+            }`}
+          >
+            {imagenFilter !== null ? (
+              imagenFilter === true ? (
+                <i className="bx bx-up-arrow-alt"></i>
+              ) : (
+                <i className="bx bx-x"></i>
+              )
+            ) : (
+              <i className="bx bx-down-arrow-alt"></i>
+            )}
+            <button
+              onClick={toggleImagenFilter}
+              className="p-2 w-full"
+              type="button"
+            >
+              Aut. de Imagen
+            </button>
+          </div>
           <div className="flex flex-row items-center bg-white p-2 rounded h-10 w-full md:w-60 mt-5">
             <i className="bx bx-search-alt"></i>
             <input
@@ -80,6 +163,34 @@ function InscriptionsPage() {
         </div>
         {filteredInscriptions.length > 0 ? (
           <div className="grid grid-cols-1 gap-2 mt-5">
+            {imagenFilter !== null && ropaFilter !== null ? (
+              <div className="bg-white py-2 rounded mb-5">
+                <h2 className="text-center text-gray-600 text-xl font-medium">
+                  Colonos {imagenFilter === true ? "CON" : "SIN"} Autorización
+                  de Imagen y {ropaFilter === true ? "CON" : "SIN"} Autorización
+                  de Ropa
+                </h2>
+              </div>
+            ) : (
+              <>
+                {imagenFilter !== null && (
+                  <div className="bg-white py-2 rounded mb-5">
+                    <h2 className="text-center text-gray-600 text-xl font-medium">
+                      Colonos {imagenFilter === true ? "CON" : "SIN"}{" "}
+                      Autorización de Imagen
+                    </h2>
+                  </div>
+                )}
+                {ropaFilter !== null && (
+                  <div className="bg-white py-2 rounded mb-5">
+                    <h2 className="text-center text-gray-600 text-xl font-medium">
+                      Colonos {ropaFilter === true ? "CON" : "SIN"} Autorización
+                      de Ropa
+                    </h2>
+                  </div>
+                )}
+              </>
+            )}
             <div className="flex flex-row">
               <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 items-center bg-white py-2 px-4 shadow-md rounded">
                 <p className="font-medium">Nombre / Apellido</p>

@@ -58,6 +58,7 @@ const CampingFormSchema = new Schema(
     grupoSanguineo: String,
     datoRelevante: String,
     childrenAuth: [Boolean],
+    certifications: [Array],
     pariente: String,
     parienteDocumento: String,
     parienteAuth: String,
