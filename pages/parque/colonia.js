@@ -3,6 +3,7 @@ import Link from "next/link";
 import Modal from "react-modal";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import Pagination from "@/components/Pagination";
 
 function InscriptionsPage() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -11,10 +12,12 @@ function InscriptionsPage() {
   const [idFormToDelete, setIdFormToDelete] = useState(null);
   const [ropaFilter, setRopaFilter] = useState(null);
   const [imagenFilter, setImagenFilter] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(15);
 
   useEffect(() => {
     fetchForms();
-  }, [searchTerm, ropaFilter, imagenFilter]);
+  }, [searchTerm, ropaFilter, imagenFilter, currentPage]);
 
   async function fetchForms() {
     try {
@@ -97,6 +100,13 @@ function InscriptionsPage() {
     setIdFormToDelete(null);
     setDeleteModalIsOpen(false);
   }
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredInscriptions.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
 
   return (
     <>
@@ -205,7 +215,7 @@ function InscriptionsPage() {
                 <i className="bx bxs-trash"></i>
               </button>
             </div>
-            {filteredInscriptions.map((inscription) => (
+            {currentItems.map((inscription) => (
               <div key={inscription.documento} className="flex flex-row">
                 <Link
                   href={`/parque/colonia/${inscription.documento}`}
@@ -235,6 +245,14 @@ function InscriptionsPage() {
                 </button>
               </div>
             ))}
+            <div className="flex justify-center items-center mt-5">
+              <Pagination
+                totalItems={filteredInscriptions.length}
+                itemsPerPage={itemsPerPage}
+                currentPage={currentPage}
+                onPageChange={setCurrentPage}
+              />
+            </div>
           </div>
         ) : (
           <div className="flex justify-center items-centerw-full mx-5 mt-5">

@@ -2,8 +2,32 @@ import Layout from "@/components/Layout";
 import { mongooseConnect } from "@/lib/mongoose";
 import { CampingForm } from "@/model/CampingForm";
 import Link from "next/link";
+import Spinner from "@/components/Spinner";
+import { useRouter } from "next/router";
+import { useState } from "react";
 
-function InscriptionPage({ inscription }) {
+function InscriptionPage({ inscription, allInscriptions }) {
+  const router = useRouter();
+
+  const inscriptionArray = Object.values(allInscriptions);
+  const currentIndex = inscriptionArray.findIndex(
+    (item) => item._id === inscription._id
+  );
+  const isLastInscription = currentIndex === 0;
+  const isFirstInscription = currentIndex === inscriptionArray.length - 1;
+
+  const navigateToInscription = (direction) => {
+    if (isLastInscription && direction === "prev") return;
+    if (isFirstInscription && direction === "next") return;
+
+    if (Array.isArray(inscriptionArray) && currentIndex !== -1) {
+      const newIndex =
+        direction === "prev" ? currentIndex - 1 : currentIndex + 1;
+      const newInscription = inscriptionArray[newIndex];
+      router.push(`/parque/colonia/${newInscription.documento}`);
+    }
+  };
+
   return (
     <>
       <Layout>
@@ -14,12 +38,32 @@ function InscriptionPage({ inscription }) {
           <div className="flex justify-strat items-end">
             <Link
               href={"/parque/colonia"}
-              className="bg-white font-normal text-lg rounded-full py-2 px-3 mb-4 ml-2 hover:bg-gray-100 hover:shadow-md shadow-gray-700 transition-all"
+              className="absolute bg-white font-normal text-lg rounded-full py-2 px-3 hover:bg-gray-100 hover:shadow-md shadow-gray-700 transition-all"
             >
-              <i class="bx bx-arrow-back"></i>
+              <i className="bx bx-arrow-back"></i>
             </Link>
           </div>
-          <div className="flex flex-col justify-center bg-white rounded-lg shadow-lg mb-8 p-4 shadow-gray-700">
+          <div className="bg-white rounded flex justify-between shadow-sm shadow-gray-700 w-full mt-5 text-3xl text-gray-600">
+            <button
+              className={`pt-2 pb-1 px-4 ${
+                isLastInscription ? "text-gray-300 cursor-default" : ""
+              }`}
+              title="Anterior"
+              onClick={() => navigateToInscription("prev")}
+            >
+              <i className="bx bx-chevrons-left"></i>
+            </button>
+            <button
+              className={`pt-2 pb-1 px-4 ${
+                isFirstInscription ? "text-gray-300 cursor-default" : ""
+              }`}
+              title="Siguiente"
+              onClick={() => navigateToInscription("next")}
+            >
+              <i className="bx bx-chevrons-right"></i>
+            </button>
+          </div>
+          <div className="flex flex-col justify-center bg-white rounded shadow-sm mb-8 mt-2 p-4 shadow-gray-700">
             <h3 className="mb-3 text-lg font-medium text-gray-600">
               Datos Relevantes:
             </h3>
@@ -396,13 +440,20 @@ export async function getServerSideProps(context) {
   await mongooseConnect();
 
   const inscription = await CampingForm.findOne({ documento });
+  const allInscriptions = await CampingForm.find().sort({ createdAt: -1 });
+
   const serializedIns = {
     ...JSON.parse(JSON.stringify(inscription)),
+  };
+
+  const serializedAllIns = {
+    ...JSON.parse(JSON.stringify(allInscriptions)),
   };
 
   return {
     props: {
       inscription: serializedIns,
+      allInscriptions: serializedAllIns,
     },
   };
 }
