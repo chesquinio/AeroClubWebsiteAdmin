@@ -51,10 +51,10 @@ function Pagination({ totalItems, itemsPerPage, currentPage, onPageChange }) {
         <button
           key={index}
           onClick={() => onPageChange(pageNumber)}
-          className={`mx-1 px-4 py-2 text-white hover:bg-white hover:text-gray-700 rounded font-semibold transition-all ${
+          className={`mx-1 px-4 py-2 rounded font-semibold transition-all ${
             currentPage === pageNumber
-              ? "bg-white shadow-md shadow-gray-700 text-gray-900"
-              : ""
+              ? "text-gray-900 bg-white shadow-md shadow-gray-700"
+              : "text-white hover:bg-white hover:text-gray-700"
           } ${pageNumber === null ? "cursor-default" : ""}`}
           disabled={pageNumber === null}
         >
