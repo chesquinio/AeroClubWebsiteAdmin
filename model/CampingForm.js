@@ -7,6 +7,7 @@ const CampingFormSchema = new Schema(
     documento: String,
     curso: String,
     hermanoDe: String,
+    telefono: String,
     email: String,
     alergias: {
       medicamentos: {
@@ -58,7 +59,7 @@ const CampingFormSchema = new Schema(
     grupoSanguineo: String,
     datoRelevante: String,
     childrenAuth: [Boolean],
-    certifications: [Array],
+    certifications: { type: [Array], default: [null, null] },
     pariente: String,
     parienteDocumento: String,
     parienteAuth: String,

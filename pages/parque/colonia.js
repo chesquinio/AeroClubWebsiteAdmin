@@ -202,12 +202,13 @@ function InscriptionsPage() {
               </>
             )}
             <div className="flex flex-row">
-              <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 items-center bg-white py-2 px-4 shadow-md rounded">
-                <p className="font-medium">Nombre / Apellido</p>
-                <p className="hidden xl:inline font-medium">Documento</p>
-                <p className="hidden lg:inline font-medium">Edad</p>
-                <p className="hidden sm:inline font-medium">Email</p>
+              <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 items-center bg-white py-2 px-4 shadow-md rounded-tl rounded-bl">
+                <p className="font-semibold">Nombre / Apellido</p>
+                <p className="hidden xl:inline font-semibold">Documento</p>
+                <p className="hidden lg:inline font-semibold">Edad</p>
+                <p className="hidden sm:inline font-semibold">Email</p>
               </div>
+              <div className="w-14 h-10 bg-white rounded-tr rounded-br"></div>
               <button
                 onClick={() => openDeleteModal()}
                 className="w-10 ml-4 bg-white text-xl text-black rounded hover:shadow-md hover:shadow-gray-700 hover:bg-gray-100 hover:text-red-500 transition-all duration-500"
@@ -236,6 +237,12 @@ function InscriptionsPage() {
                       {inscription.email}
                     </p>
                   </div>
+                </Link>
+                <Link
+                  href={`/parque/colonia/editar/${inscription.documento}`}
+                  className="bg-white rounded px-3 py-2 ml-3 text-xl text-gray-700 hover:text-primary transition-all"
+                >
+                  <i className="bx bxs-edit"></i>
                 </Link>
                 <button
                   onClick={() => openDeleteModal(inscription._id)}

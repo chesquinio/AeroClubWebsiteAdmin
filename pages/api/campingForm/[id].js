@@ -5,28 +5,17 @@ export default async function handler(req, res) {
   const { method } = req;
   mongooseConnect();
 
-  if (method === "GET") {
+  if (method === "PUT") {
     try {
-      const inscriptions = await CampingForm.find({});
-      res.status(200).json(inscriptions);
-    } catch (error) {
-      res
-        .status(500)
-        .json({ error: "Error al obtener los formularios de camping" });
-    }
-  } else if (method === "DELETE") {
-    const { _id } = req.query;
-    if (!_id) {
-      await CampingForm.deleteMany({});
-    } else {
-      await CampingForm.deleteOne({ _id });
-    }
-    res.json("ok");
-  } else if (method === "PUT") {
-    try {
-      const editableFields = req.body;
+      const { _id } = req.query;
 
-      const existingForm = await CampingForm.findById(editableFields._id);
+      if (!_id) {
+        return res.status(400).json({
+          error: "Se requiere el ID para actualizar el formulario de camping.",
+        });
+      }
+
+      const existingForm = await CampingForm.findById(_id);
 
       if (!existingForm) {
         return res
@@ -34,7 +23,10 @@ export default async function handler(req, res) {
           .json({ error: "Formulario de camping no encontrado." });
       }
 
-      Object.keys(editableFields).forEach((field) => {
+      const { editableFields } = req.body;
+      console.log(req.body);
+
+      editableFields.forEach((field) => {
         if (
           editableFields[field] !== undefined &&
           editableFields[field] !== existingForm[field]
