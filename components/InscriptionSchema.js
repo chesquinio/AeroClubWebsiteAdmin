@@ -71,7 +71,7 @@ export default function InscriptionSchema({
             )}
           </div>
           <div className="flex flex-col">
-            <label className="text-gray-600 text-sm">Edad:</label>
+            <label className="text-gray-600 text-sm">Apellido:</label>
             {edit ? (
               <input
                 type="text"
