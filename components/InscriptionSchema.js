@@ -56,7 +56,7 @@ export default function InscriptionSchema({
         <h3 className="mb-3 text-lg font-medium text-gray-600">
           Datos Relevantes:
         </h3>
-        <div className="grid grid-cols-2 gap-4 mb-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
           <div className="flex flex-col">
             <label className="text-gray-600 text-sm">Nombre</label>
             {edit ? (
@@ -152,6 +152,21 @@ export default function InscriptionSchema({
             ) : (
               <p className="text-gray-800 font-medium">
                 {inscription.telefono ? inscription.telefono : "- - -"}
+              </p>
+            )}
+          </div>
+          <div className="flex flex-col">
+            <label className="text-gray-600 text-sm">Turno:</label>
+            {edit ? (
+              <input
+                type="text"
+                value={editableFields.turno}
+                onChange={(e) => handleFieldChange("turno", e.target.value)}
+                className="text-gray-800 font-medium py-1 px-1 outline-none"
+              />
+            ) : (
+              <p className="text-gray-800 font-medium">
+                {inscription.turno ? inscription.telefono : "No definido"}
               </p>
             )}
           </div>

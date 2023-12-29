@@ -56,7 +56,8 @@ function Nav() {
             className={
               pathname === "/parque" ||
               pathname === "/parque/colonia" ||
-              pathname === "/parque/colonia/[documento]"
+              pathname === "/parque/colonia/[documento]" ||
+              pathname === "/parque/colonia/editar/[id]"
                 ? activeLink
                 : inactiveLink
             }

@@ -8,6 +8,7 @@ const CampingFormSchema = new Schema(
     curso: String,
     hermanoDe: String,
     telefono: String,
+    turno: String,
     email: String,
     alergias: {
       medicamentos: {
