@@ -8,7 +8,9 @@ function HomePage({ inscriptions }) {
   return (
     <Layout>
       <div className="flex flex-col justify-center items-center w-full">
-        <h1 className="text-3xl text-white text-center my-5">Datos de Colonia</h1>
+        <h1 className="text-3xl text-white text-center my-5">
+          Datos de Colonia
+        </h1>
         <div className="bg-white w-full md:w-1/2 text-center rounded p-3">
           <h3 className="text-2xl">Total de Inscriptos</h3>
           <p className="text-3xl font-semibold">{totalInscriptions}</p>

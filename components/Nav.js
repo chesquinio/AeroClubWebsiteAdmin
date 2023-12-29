@@ -36,7 +36,12 @@ function Nav() {
             Noticias
           </Link>
           <Link
-            className={pathname === "/aeronautica" ? activeLink : inactiveLink}
+            className={
+              pathname === "/aeronautica" ||
+              pathname === "/aeronautica/reservas"
+                ? activeLink
+                : inactiveLink
+            }
             href={"/aeronautica"}
           >
             Aeronáutica

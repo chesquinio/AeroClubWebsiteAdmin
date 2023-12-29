@@ -2,6 +2,7 @@ import EditSections from "@/components/EditSections";
 import Layout from "@/components/Layout";
 import axios from "axios";
 import Head from "next/head";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 
@@ -13,6 +14,8 @@ function AeroClubPage() {
   const [isToggleBotton, setIsToggleBotton] = useState(false);
   const [textBotton, setTextBotton] = useState("");
   const [isUploading, setIsUploading] = useState(false);
+
+  const [isToggleSection, setIsToggleSection] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -36,7 +39,7 @@ function AeroClubPage() {
     };
     await axios.put("/api/aeroclubData", { ...data, _id: id });
 
-    router.push("/aeroclub");
+    router.push("/aeronautica");
   }
 
   async function uploadImage(ev) {
@@ -64,6 +67,10 @@ function AeroClubPage() {
     setIsToggleBotton(!isToggleBotton);
   };
 
+  const toggleSection = () => {
+    setIsToggleSection(!isToggleSection);
+  };
+
   return (
     <>
       <Head>
@@ -71,23 +78,43 @@ function AeroClubPage() {
       </Head>
       <Layout>
         <div className="bg-transparent text-white listWidth my-5 mx-auto text-center py-2 rounded text-xl">
-          <h1 className="font-normal text-4xl">Apartado AeroClub</h1>
+          <h1 className="font-normal text-4xl">Apartado Aeronáutica</h1>
         </div>
-        <EditSections
-          primaryTitle={primaryTitle}
-          setPrimaryTitle={setPrimaryTitle}
-          primaryInfo={primaryInfo}
-          setPrimaryInfo={setPrimaryInfo}
-          primaryImage={primaryImage}
-          setPrimaryImage={setPrimaryImage}
-          isUploading={isUploading}
-          uploadImage={uploadImage}
-          isToggleBotton={isToggleBotton}
-          handleToggle={handleToggle}
-          textBotton={textBotton}
-          setTextBotton={setTextBotton}
-          saveData={saveAeroClubData}
-        />
+        <div>
+          <div className="flex flex-col justify-center listWidth mb-4 gap-4 mx-auto">
+            <Link
+              href={"/aeronautica/reservas"}
+              className="bg-white text-gray-500 hover:shadow-lg shadow-gray-700 hover:text-black hover:bg-gray-100 transition-all py-2 rounded text-lg md:text-xl text-center w-full"
+            >
+              Reservas de Vuelos
+            </Link>
+            <button
+              onClick={() => toggleSection()}
+              className="bg-white text-gray-500 hover:shadow-lg shadow-gray-700 hover:text-black hover:bg-gray-100 transition-all py-2 rounded text-lg md:text-xl text-center w-full"
+            >
+              Editar Sección
+            </button>
+          </div>
+          <div className="flex flex-col justify-center mb-4 mx-auto">
+            {isToggleSection && (
+              <EditSections
+                primaryTitle={primaryTitle}
+                setPrimaryTitle={setPrimaryTitle}
+                primaryInfo={primaryInfo}
+                setPrimaryInfo={setPrimaryInfo}
+                primaryImage={primaryImage}
+                setPrimaryImage={setPrimaryImage}
+                isUploading={isUploading}
+                uploadImage={uploadImage}
+                isToggleBotton={isToggleBotton}
+                handleToggle={handleToggle}
+                textBotton={textBotton}
+                setTextBotton={setTextBotton}
+                saveData={saveAeroClubData}
+              />
+            )}
+          </div>
+        </div>
       </Layout>
     </>
   );
